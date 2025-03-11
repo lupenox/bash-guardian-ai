@@ -86,6 +86,7 @@ git push origin feature/my-new-feature
 📜 License
 
 This project is licensed under the MIT License.
+
 🙏 Acknowledgments
 
     Inspired by open-source AI models and Linux optimization techniques.
