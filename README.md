@@ -1,93 +1,70 @@
-# Lupenox AI Assistant
+# Bash Guardian AI - Your AI Werewolf Companion
 
-A personal AI assistant designed for adaptability, privacy, and deep customization. Built to understand and assist with my unique workflows, leveraging local data, prompt engineering, and Linux optimization for a seamless experience.
+## 🐺 About Bash
+**Bash** is a personal AI companion designed to support emotional well-being, stress management, and daily tasks. Bash is more than just an AI; he is a **protective, comforting, and interactive werewolf assistant** that grows with you, understanding your moods and adapting to your needs.
 
----
+## 🌟 Features
+- **📅 Mood & Emotion Tracking** - Logs mood via Galaxy Watch or manual check-ins.
+- **🗣️ Voice Interaction** - Real-time conversations with Bash using speech recognition.
+- **💬 Custom Conversational AI** - Generates comforting, supportive, and engaging responses.
+- **📊 Mood Journal & Data Visualization** - Provides insights into emotional trends over time.
+- **🔊 Custom TTS Voice for Bash** - Deep, protective voice generated using AI-powered speech synthesis.
+- **⌚ Galaxy Watch Integration** - Tracks stress levels and syncs with Bash.
+- **📱 Android & Desktop Apps** - Interact with Bash across multiple devices.
+- **🛡️ Smart Alerts & Emergency Comfort Mode** - Provides support during high-stress moments.
 
-## 🚀 Features
+## 🏗️ Tech Stack
+- **Programming Languages:** Python, JavaScript, Kotlin
+- **Frontend:** React, Electron (for desktop), Jetpack Compose (for Android)
+- **Backend:** FastAPI, Flask
+- **AI & ML:** PyTorch, TensorFlow (Custom NLP & Speech Models)
+- **Speech & Voice Processing:** Coqui TTS, Whisper, Google Speech-to-Text
+- **Data & Storage:** PostgreSQL, SQLite, Firebase
+- **Wear OS Integration:** Samsung Health SDK, Galaxy Watch API
 
-- **Local Data Processing:** Prioritizes privacy by running locally with no external API dependencies.  
-- **Prompt Engineering Mastery:** Optimized for dynamic, efficient prompt crafting and interaction.  
-- **Linux Optimization:** Custom-built for seamless integration on Kubuntu and other Linux distributions.  
-- **Custom Workflow Support:** Tailored to adapt and automate personal workflows.  
-- **Deep Learning Personalization:** Learns from user patterns and interactions for improved assistance over time.  
-- **Modular Architecture:** Easily extendable with plugins and new features.
+## 🚀 Installation & Setup
+```sh
+# Clone the repository
+git clone https://github.com/lupenox/bash-guardian-ai.git
+cd bash-guardian-ai
 
----
-
-## 🛠️ Tech Stack
-
-- **Python** (Core Logic)  
-- **Bash** (Linux System Integrations)  
-- **React** (For potential GUI integration)  
-- **Docker** (For isolated development environments)  
-- **SQLite** (For local data storage)  
-
----
-
-## 🧩 Planned Features
-
-- [ ] **Voice Command Integration**  
-- [ ] **Customizable Command-Line Interface**  
-- [ ] **Data Visualization for Task Tracking**  
-- [ ] **Encrypted Local Storage**  
-- [ ] **Modular Plugin System** for specific task automation  
-
----
-
-## 📂 Installation
-
-1. **Clone the repository**:
-```bash
-git clone https://github.com/lupenox/lupenox-ai-assistant.git
-cd lupenox-ai-assistant
-
-    Install dependencies:
-
+# Create a virtual environment & install dependencies
+python -m venv venv
+source venv/bin/activate  # On Windows use: venv\Scripts\activate
 pip install -r requirements.txt
 
-    Run the assistant:
+# Run the backend API
+python backend/main.py
 
-python assistant.py
+# Start the frontend (React)
+cd frontend
+npm install
+npm start
+```
 
-🤖 How It Works
+## 📌 Roadmap & Progress
+### **Phase 1: Planning & Setup** ✅
+✔️ Define project features, tech stack, and structure  
+✔️ Set up repository and development environment  
 
-    Data Input: User inputs a query via CLI or the future GUI.
-    Prompt Processing: AI processes the input using optimized prompts and local context.
-    Response Handling: Returns actionable responses or executes automated tasks.
-    Learning Module: Continuously updates and improves based on user interactions.
+### **Phase 2: AI Model Development** ⏳
+⬜ Collect & preprocess datasets  
+⬜ Train conversational AI model from scratch  
+⬜ Develop sentiment analysis & mood detection  
+⬜ Build custom TTS voice for Bash  
 
-🌐 Roadmap
+### **Phase 3: App Development & Integration** 🔜
+⬜ Develop Android & Galaxy Watch apps  
+⬜ Integrate AI model with backend  
+⬜ Implement UI for interaction & journaling  
 
-Create core prompt engine
-Build local data processing module
-Integrate Bash script execution
-Setup encrypted local database
+### **Phase 4: Testing & Deployment** 🏁
+⬜ Optimize AI models for efficiency  
+⬜ Security & privacy enhancements  
+⬜ Final testing & launch  
 
-    Test on Kubuntu setup
+## 🤝 Contributing
+This is a personal project, but contributions, feedback, and ideas are always welcome! If you're interested in collaborating, feel free to reach out.
 
-🧑‍💻 Contributing
-
-    Fork the repo
-    Create your feature branch:
-
-git checkout -b feature/my-new-feature
-
-    Commit your changes:
-
-git commit -am 'Add some feature'
-
-    Push to the branch:
-
-git push origin feature/my-new-feature
-
-    Submit a pull request
-
-📜 License
-
+## 📜 License
 This project is licensed under the MIT License.
-
-🙏 Acknowledgments
-
-    Inspired by open-source AI models and Linux optimization techniques.
-    Special thanks to the Linux and AI communities for their continuous innovation.
