@@ -1,42 +1,68 @@
+import json
 import torch
 import torch.nn as nn
 import torch.optim as optim
-import random
+from transformers import BertTokenizer, BertModel
+from torch.utils.data import DataLoader, TensorDataset
 
-# Import BashAI Model
-from model import BashAI
+class BashAI(nn.Module):
+    def __init__(self, hidden_size=256, output_size=None):  
+        super(BashAI, self).__init__()
+        self.bert = BertModel.from_pretrained("bert-base-uncased")
+        self.fc = nn.Linear(self.bert.config.hidden_size, output_size)
 
-# Dummy dataset (Replace with real conversations later)
-training_data = [
-    ("Hello", [1, 0, 0]),
-    ("How are you?", [0, 1, 0]),
-    ("Goodbye", [0, 0, 1])
-]
+    def forward(self, input_ids, attention_mask):
+        outputs = self.bert(input_ids=input_ids, attention_mask=attention_mask)
+        logits = self.fc(outputs.pooler_output)
+        return logits
 
-# Convert text to numbers (basic example)
-word_to_index = {word: i for i, (word, _) in enumerate(training_data)}
+def preprocess_data(data, tokenizer):
+    texts, labels = [], []
+    unique_responses = sorted(set(str(item["response"]) for item in data))  # <-- sorted for consistency
+    response_mapping = {response: idx for idx, response in enumerate(unique_responses)}
 
-# Prepare data
-X_train = torch.tensor([[word_to_index[word]] for word, _ in training_data], dtype=torch.float32)
-y_train = torch.tensor([label for _, label in training_data], dtype=torch.float32)
+    for item in data:
+        texts.append(str(item["input"]))
+        labels.append(response_mapping[str(item["response"])])
 
-# Initialize model
-model = BashAI(input_size=1, hidden_size=8, output_size=3)
-criterion = nn.MSELoss()
-optimizer = optim.Adam(model.parameters(), lr=0.01)
+    encodings = tokenizer(texts, padding=True, truncation=True, return_tensors="pt")
+    labels = torch.tensor(labels, dtype=torch.long)
 
-# Training loop
-epochs = 500
-for epoch in range(epochs):
-    optimizer.zero_grad()
-    output = model(X_train)
-    loss = criterion(output, y_train)
-    loss.backward()
-    optimizer.step()
-    
-    if epoch % 100 == 0:
-        print(f"Epoch {epoch}, Loss: {loss.item()}")
+    return encodings, labels, response_mapping
 
-# Save trained model
-torch.save(model.state_dict(), "bash_ai_model.pth")
-print("Training complete. Model saved.")
+def train_model():
+    with open("backend/ai_engine/bash_ai_dataset.json", "r") as f:
+        data = json.load(f)
+
+    tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
+    dataset, labels, response_mapping = preprocess_data(data, tokenizer)
+
+    tensor_dataset = TensorDataset(dataset["input_ids"], dataset["attention_mask"], labels)
+    dataloader = DataLoader(tensor_dataset, batch_size=3, shuffle=True)
+
+    model = BashAI(output_size=len(response_mapping))
+    criterion = nn.CrossEntropyLoss()
+    optimizer = optim.Adam(model.parameters(), lr=2e-5)
+
+    EPOCHS = 10
+    for epoch in range(EPOCHS):
+        total_loss = 0
+        for input_ids, attention_mask, batch_labels in dataloader:
+            optimizer.zero_grad()
+            outputs = model(input_ids, attention_mask)
+            loss = criterion(outputs, batch_labels)
+            loss.backward()
+            optimizer.step()
+            total_loss += loss.item()
+
+        avg_loss = total_loss / len(dataloader)
+        print(f"🐺 Epoch {epoch+1} Complete | Average Loss: {avg_loss:.4f}")
+
+    torch.save({
+        "model_state_dict": model.state_dict(),
+        "response_mapping": response_mapping
+    }, "backend/ai_engine/bash_ai_model.pth")
+    print("🐺 Training complete. Model saved.")
+
+if __name__ == "__main__":
+    train_model()
