@@ -1,31 +1,42 @@
-# Ignore Android build and Gradle files
+# Android Studio / Gradle
 android_app/.gradle/
 android_app/.idea/
 android_app/build/
 android_app/app/build/
 android_app/local.properties
 
-# Ignore dependency caches
+# Android dependency caches
 android_app/.cxx/
 android_app/captures/
 android_app/app/.cxx/
 android_app/app/captures/
 
-# Ignore generated files
+# Android generated
 *.iml
-*.log
 *.apk
 *.keystore
 
-# Ignore virtual environment and Python cache
+# Python virtualenv & caches
 backend/venv/
-backend/__pycache__/
 **/__pycache__/
 *.pyc
 *.pyo
 *.pyd
 
-# Ignore system and editor files
+# Model files
+*.pth
+*.pt
+*.bin
+backend/ai_engine/bash_ai_model.pth
+
+# Logs, locks, temp
+*.log
+*.lock
+*.pid
+*.tmp
+*.out
+
+# System/editor
 .DS_Store
 Thumbs.db
 .vscode/
