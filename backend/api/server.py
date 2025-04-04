@@ -1,3 +1,4 @@
+import os
 import torch
 from fastapi import FastAPI
 from pydantic import BaseModel
@@ -8,7 +9,8 @@ app = FastAPI()
 
 # Only load tokenizer and trained model once
 TOKENIZER = BertTokenizer.from_pretrained("bert-base-uncased")
-checkpoint = torch.load("backend/ai_engine/bash_ai_model.pth", map_location=torch.device("cpu"))
+MODEL_PATH = os.path.join(os.path.dirname(__file__), "..", "ai_engine", "bash_ai_model.pth")
+checkpoint = torch.load(MODEL_PATH, map_location=torch.device("cpu"))
 
 response_mapping = checkpoint["response_mapping"]
 response_list = list(response_mapping.keys())
