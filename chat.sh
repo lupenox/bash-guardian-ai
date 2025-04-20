@@ -3,7 +3,7 @@
 LOCKFILE="/tmp/bash_ai.lock"
 
 if [ -f "$LOCKFILE" ]; then
-    echo "🐺 Another instance of Bash AI training is already running!"
+    echo "🐺 Another instance of Bash AI is already running!"
     exit 1
 else
     touch "$LOCKFILE"
@@ -14,18 +14,6 @@ trap "rm -f $LOCKFILE" EXIT
 # Activate virtual environment
 echo "🐺 Activating virtual environment..."
 source backend/venv/bin/activate
-
-# Train the AI model
-echo "🐺 Training Bash AI... Hold tight, pup!"
-PYTHONPATH=backend python backend/ai_engine/train.py
-
-# Notify user
-if [ $? -eq 0 ]; then
-    echo "🎉 Bash AI training complete! Time to test him out, pup!"
-else
-    echo "❌ Something went wrong during training."
-    exit 1
-fi
 
 # Start the server in the background
 echo "🚀 Starting Bash AI server..."

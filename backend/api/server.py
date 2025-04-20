@@ -4,8 +4,17 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from transformers import BertTokenizer
 from ai_engine.model import BashAI
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # You can lock this down later
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Only load tokenizer and trained model once
 TOKENIZER = BertTokenizer.from_pretrained("bert-base-uncased")
