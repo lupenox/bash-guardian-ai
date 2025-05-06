@@ -1,4 +1,3 @@
 package com.lupenox.bashguardianai.data
 
-class BashResponse {
-}
+data class BashResponse(val response: String)

@@ -1,4 +1,3 @@
 package com.lupenox.bashguardianai.data
 
-class BashRequest {
-}
+data class BashRequest(val text: String)
