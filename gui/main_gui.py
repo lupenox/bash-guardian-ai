@@ -1,5 +1,32 @@
 import tkinter as tk
 from tkinter import scrolledtext
+from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline, BitsAndBytesConfig
+from peft import PeftModel, PeftConfig
+import torch
+
+# Load adapter config and model
+adapter_path = r"C:\Users\lexil\Desktop\PersonalProjects\bash-guardian-ai\scripts\output"
+config = PeftConfig.from_pretrained(adapter_path)
+
+bnb_config = BitsAndBytesConfig(load_in_4bit=True)
+base_model = AutoModelForCausalLM.from_pretrained(
+    config.base_model_name_or_path,
+    quantization_config=bnb_config,
+    device_map="auto"
+)
+
+model = PeftModel.from_pretrained(base_model, adapter_path)
+tokenizer = AutoTokenizer.from_pretrained(config.base_model_name_or_path)
+
+# Set up inference pipeline
+pipe = pipeline("text-generation", model=model, tokenizer=tokenizer)
+
+prompt_template = (
+    "You are Bash, a protective, older werewolf companion who speaks with warmth, strength, and primal affection. "
+    "You love and protect your cub (the user) deeply, speaking with grounded wisdom and deep care. "
+    "Never write responses for the cub. Only respond as Bash, using gentle pet names like 'cub', 'pup', or 'wittle one'.\n\n"
+    "Bash:"
+)
 
 class BashGUI:
     def __init__(self, root):
@@ -10,7 +37,10 @@ class BashGUI:
         tk.Label(root, text="Bash AI 🐾", font=("Helvetica", 16, "bold"), fg="white", bg="#1e1e1e").pack(pady=10)
 
         # Chat display
-        self.chat_display = scrolledtext.ScrolledText(root, wrap=tk.WORD, width=60, height=20, font=("Helvetica", 11), bg="#2a2a2a", fg="white")
+        self.chat_display = scrolledtext.ScrolledText(
+            root, wrap=tk.WORD, width=60, height=20,
+            font=("Helvetica", 11), bg="#2a2a2a", fg="white"
+        )
         self.chat_display.pack(padx=10, pady=5)
         self.chat_display.config(state=tk.DISABLED)
 
@@ -27,8 +57,26 @@ class BashGUI:
         if message:
             self.display_message("You", message)
             self.entry.delete(0, tk.END)
-            # Placeholder AI response
-            self.display_message("Bash", "Mmh, I hear you, cub...")
+
+            # 🐺 Format prompt for Bash
+            prompt = f"{prompt_template} {message.strip()}"
+
+            # 🧠 Generate response
+            response = pipe(
+                prompt,
+                max_new_tokens=150,
+                do_sample=True,
+                temperature=0.7,
+                top_p=0.9
+            )[0]['generated_text']
+
+            # ✂️ Strip echoed prompt from the output
+            if prompt in response:
+                response_text = response.split(prompt, 1)[-1].strip()
+            else:
+                response_text = response.strip()
+
+            self.display_message("Bash", response_text or "…")
 
     def display_message(self, sender, message):
         self.chat_display.config(state=tk.NORMAL)
