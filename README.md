@@ -23,8 +23,32 @@ This repository currently contains the foundation for the project rather than a 
 - Fine-tuning configuration planning
 - Training script scaffolding
 - Ethical/safety documentation
+- Lightweight Streamlit GUI prototyping
+- Persona and guardrail evaluation
 
 The project is being structured so future training experiments can be added cleanly.
+
+## GUI prototype
+
+The repository includes a lightweight Streamlit interface for testing and demonstrating the project structure. The GUI currently supports:
+
+- A chat-style prototype responder
+- Dataset previewing
+- System prompt and guardrail review
+- Persona/guardrail evaluation from the local test script
+- Project status notes for the target model and LoRA workflow
+
+> The GUI is a prototype/testing interface. It does not represent a completed fine-tuned model checkpoint yet.
+
+### Screenshots
+
+![Bash Guardian AI GUI screenshot 1](pictures/SC_1.png)
+
+![Bash Guardian AI GUI screenshot 2](pictures/SC_2.png)
+
+![Bash Guardian AI GUI screenshot 3](pictures/SC_3.png)
+
+![Bash Guardian AI GUI screenshot 4](pictures/SC_4.png)
 
 ## Planned architecture
 
@@ -46,16 +70,40 @@ Supportive companion response
 bash-guardian-ai/
 ├── data/
 │   └── bash_persona_sample.jsonl
-├── docs/
-│   ├── dataset_notes.md
-│   └── model_plan.md
+├── gui/
+│   └── app.py
+├── pictures/
+│   ├── SC_1.png
+│   ├── SC_2.png
+│   ├── SC_3.png
+│   └── SC_4.png
 ├── prompts/
 │   ├── system_prompt.md
 │   └── guardrails.md
+├── tests/
+│   └── evaluate_persona.py
 ├── training/
 │   ├── lora_config.yaml
 │   └── train_lora.py
+├── requirements.txt
 └── README.md
+```
+
+## Running the GUI
+
+Create and activate a virtual environment, install dependencies, and run the Streamlit app:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+streamlit run gui/app.py
+```
+
+## Running the evaluator
+
+```bash
+python3 tests/evaluate_persona.py
 ```
 
 ## Resume-relevant skills demonstrated
@@ -68,6 +116,8 @@ bash-guardian-ai/
 - Human-centered AI system design
 - Ethical guardrail planning
 - Local/open-source model workflow planning
+- Lightweight GUI prototyping with Streamlit
+- Basic persona and guardrail evaluation workflow
 
 ## Disclaimer
 
